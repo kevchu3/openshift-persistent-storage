@@ -1,0 +1,7 @@
+### Syntax to run: ansible-playbook -i <inventory> config.yml
+
+# Deploy internal Docker registry
+- import_playbook: /usr/share/ansible/openshift-ansible/playbooks/openshift-hosted/config.yml
+
+# Deploy Hawkular metrics
+- import_playbook: /usr/share/ansible/openshift-ansible/playbooks/openshift-metrics/config.yml

@@ -1,0 +1,13 @@
+# Use NFS host for small home lab - single point of failure, not recommended for production use
+openshift_enable_unsupported_configurations=true
+
+# https://access.redhat.com/documentation/en-us/openshift_container_platform/3.11/html/installing_clusters/install-config-configuring-inventory-file#advanced-install-cluster-metrics-storage
+openshift_metrics_install_metrics=true
+openshift_metrics_cassandra_storage_type=pv
+openshift_metrics_storage_kind=nfs
+openshift_metrics_storage_access_modes=['ReadWriteOnce']
+openshift_metrics_storage_nfs_directory=/exports
+openshift_metrics_storage_nfs_options='*(rw,root_squash)'
+openshift_metrics_storage_volume_name=metrics
+openshift_metrics_storage_volume_size=5Gi
+
