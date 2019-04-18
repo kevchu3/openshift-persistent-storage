@@ -1,7 +1,13 @@
 ### Syntax to run: ansible-playbook -i <inventory> config.yml
 
+# Cluster deployment playbook creates persistent volumes
+- import_playbook: /usr/share/ansible/openshift-ansible/playbooks/deploy_cluster.yml
+
 # Deploy internal Docker registry
 - import_playbook: /usr/share/ansible/openshift-ansible/playbooks/openshift-hosted/config.yml
 
 # Deploy Hawkular metrics
 - import_playbook: /usr/share/ansible/openshift-ansible/playbooks/openshift-metrics/config.yml
+
+# Deploy logging
+- import_playbook: /usr/share/ansible/openshift-ansible/playbooks/openshift-logging/config.yml

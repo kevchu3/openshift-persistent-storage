@@ -1,0 +1,15 @@
+# Connect to nodes as root user.
+ansible_ssh_user: root
+
+# Set deployment type to deploy enterprise as opposed to origin or a stand-alone registry
+openshift_deployment_type: openshift-enterprise
+
+# Disable memory check for small home labs
+openshift_disable_check: memory_availability
+
+# The use of NFS for the core OpenShift Container Platform components is not recommended,
+# as NFS (and the NFS Protocol) does not provide the proper consistency needed for the
+# applications that make up the OpenShift Container Platform infrastructure.
+
+# Use NFS for small home lab
+openshift_enable_unsupported_configurations: true

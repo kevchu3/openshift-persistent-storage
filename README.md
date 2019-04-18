@@ -1,7 +1,7 @@
 OpenShift Hostpath Examples
 ===========================
 
-The following examples are the hostpath implementation of the internal Docker registry and Cassandra (for Hawkular metrics) on a single node hostpath using NFS.
+The following examples are the hostpath implementation of infrastructure components on a single node using NFS.
 
 Disclaimer
 ----------
@@ -33,13 +33,16 @@ lsblk
 vdb           252:16   0   50G  0 disk 
 ├─vdb1        252:17   0   30G  0 part /var/lib/docker
 ├─vdb2        252:18   0   15G  0 part /exports/registry
-└─vdb3        252:19   0    5G  0 part /exports/metrics
+├─vdb3        252:19   0    5G  0 part /exports/metrics
+├─vdb4        252:20   0    1K  0 part 
+└─vdb5        252:21   0   10G  0 part /exports/logging-es
 ```
 
 Format the new partitions
 ```
 mkfs.xfs /dev/vdb2
 mkfs.xfs /dev/vdb3
+mkfs.xfs /dev/vdb5
 ```
 
 Deploy
@@ -59,6 +62,7 @@ ansible-playbook -i hosts.lab config.yml
 If needed, manually create the PersistentVolume for metrics:
 ```
 oc create -f metrics-volume.pv.yml
+oc create -f logging-volume.pv.yml
 ```
 
 License

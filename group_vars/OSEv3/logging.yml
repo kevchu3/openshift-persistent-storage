@@ -1,0 +1,19 @@
+# Install logging
+openshift_logging_install_logging: true
+openshift_logging_es_nodeselector: {"node-role.kubernetes.io/infra":"true"}
+openshift_logging_kibana_nodeselector: {"node-role.kubernetes.io/infra":"true"}
+openshift_logging_curator_nodeselector: {"node-role.kubernetes.io/infra":"true"}
+
+# Configure NFS host group storage
+# https://access.redhat.com/documentation/en-us/openshift_container_platform/3.11/html/installing_clusters/install-config-configuring-inventory-file#advanced-install-cluster-logging
+openshift_logging_storage_kind: nfs
+openshift_logging_storage_access_modes: ['ReadWriteOnce']
+openshift_logging_storage_nfs_directory: /exports
+openshift_logging_storage_nfs_options: '*(rw,root_squash)'
+openshift_logging_storage_volume_name: logging-es
+openshift_logging_storage_volume_size: 10Gi
+
+# Optional tuning for small home labs
+openshift_logging_es_cpu_limit: 500m
+openshift_logging_es_memory_limit: 1G
+openshift_logging_fluentd_memory_limit: 500M
