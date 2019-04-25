@@ -7,7 +7,7 @@
       storage: 10Gi
     accessModes:
       - ReadWriteOnce
-    persistentVolumeReclaimPolicy: Recycle
+    persistentVolumeReclaimPolicy: Retain
     nfs:
       path: /exports/logging-es
       server: host.example.com
