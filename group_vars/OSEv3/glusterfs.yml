@@ -1,0 +1,14 @@
+# Configure GlusterFS for applications
+# https://access.redhat.com/documentation/en-us/red_hat_openshift_container_storage/3.11/html/deployment_guide/chap-Documentation-Red_Hat_Gluster_Storage_Container_Native_with_OpenShift_Platform-Basic_Install
+
+# Destroy data on block devices prior to install
+openshift_storage_glusterfs_wipe: true
+
+openshift_storage_glusterfs_namespace: app-storage
+openshift_storage_glusterfs_storageclass: true
+openshift_storage_glusterfs_storageclass_default: false
+openshift_storage_glusterfs_block_deploy: true
+openshift_storage_glusterfs_block_host_vol_size: 30
+openshift_storage_glusterfs_block_storageclass: true
+openshift_storage_glusterfs_block_storageclass_default: false
+

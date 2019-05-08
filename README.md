@@ -1,10 +1,13 @@
-OpenShift Hostpath Examples
+OpenShift Persistent Storage
 ===========================
 
-The following examples are the hostpath implementation of infrastructure components on a single node using NFS.
+The following are persistent storage examples on OpenShift:
+* Hostpath implementation of infrastructure components (registry, metrics, logging) on a single node using NFS
+* GlusterFS implementation for applications
 
 Disclaimer
 ----------
+
 This is for lab installation and educational purposes only and not to be used in a production environment.
 
 The use of NFS for the core OpenShift Container Platform components is not recommended, as NFS (and the NFS Protocol) does not provide the proper consistency needed for the applications that make up the OpenShift Container Platform infrastructure.
@@ -12,12 +15,19 @@ The use of NFS for the core OpenShift Container Platform components is not recom
 Requirements
 ------------
 
-* OpenShift 3.3+
+* OpenShift Container Platform 3.11
+* OpenShift Container Storage 3.11 (for application persistent storage only)
 
 Setup
 -----
 
-Create a new partition for each of Docker registry and Cassandra (assumes Docker pool has already been created)
+To configure persistent storage, the cluster should have the following tiers:
+* Master node(s)
+* 1 infrastructure node - with NFS storage
+* 3 GlusterFS nodes - for OpenShift Container Storage (OCS) converged mode
+* N application nodes
+
+On the infra node, create a new partition for each of Docker registry and Cassandra (assumes Docker pool has already been created)
 ```
 fdisk /dev/vdb
                enter "n" #To create new partition (vdb2 with all defaults)
@@ -43,17 +53,24 @@ Format the new partitions
 mkfs.xfs /dev/vdb2
 mkfs.xfs /dev/vdb3
 mkfs.xfs /dev/vdb5
+
+
 ```
 
 Deploy
 ------
 
-Run the hostpath setup from the node that will be used to host the registry and metrics.
+Run the hostpath setup from the node that will be used to host the registry, metrics, and logging.
 ```
 ./hostpath-setup.sh
 ```
 
-Copy the files in `group_vars/OSEv3` and run the base Ansible playbooks to configure the Docker registry and Hawkular metrics
+Run the GlusterFS setup from the nodes that will be used to host application persistent storage.
+```
+./glusterfs-setup.sh
+```
+
+Copy the files in `group_vars/OSEv3` and run the base Ansible playbooks to configure infrastructure and application persistent storage:
 ```
 cp group_vars/OSEv3 <destination>
 ansible-playbook -i hosts.lab config.yml
@@ -64,6 +81,7 @@ If needed, manually create the PersistentVolume for metrics:
 oc create -f metrics-volume.pv.yml
 oc create -f logging-volume.pv.yml
 ```
+
 
 License
 -------
