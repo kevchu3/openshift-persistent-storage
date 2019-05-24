@@ -12,7 +12,7 @@ openshift_metrics_storage_access_modes: ['ReadWriteOnce']
 openshift_metrics_storage_nfs_directory: /exports
 openshift_metrics_storage_nfs_options: '*(rw,root_squash)'
 openshift_metrics_storage_volume_name: metrics
-openshift_metrics_storage_volume_size: 5Gi
+openshift_metrics_storage_volume_size: 15Gi
 
 # Optional tuning for small home labs
 openshift_metrics_cassandra_limits_memory: 2G
