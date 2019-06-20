@@ -1,0 +1,32 @@
+# Set custom UID range for running pods
+- name: Get default namespace
+  command: oc get namespace default -o json
+  changed_when: false
+  register: get_default_namespace
+
+- name: Set uid 2000000000 on default namespace
+  command: oc patch namespace default -p '{"metadata":{"annotations":{"openshift.io/sa.scc.uid-range":"2000000000/10000"}}}'
+  when: >-
+    get_default_namespace.stdout | from_json | json_query('metadata.annotations."openshift.io/sa.scc.uid-range"') != "2000000000/10000"
+
+# Customize NFS protocol on registry PersistentVolume
+- name: Get registry-volume persistent volume
+  command: oc get pv registry-volume -n default -o json
+  changed_when: false
+  register: get_registry_pv
+
+- name: Set NFS protocol configuration on registry persistent volume
+  command: oc patch pv registry-volume -n default -p '{"metadata":{"annotations":{"volume.beta.kubernetes.io/mount-options":"nfsvers=4"}}}'
+  when: >-
+    get_registry_pv.stdout | from_json | json_query('metadata.annotations."volume.beta.kubernetes.io/mount-options"') != "nfsvers=4"
+
+# Apply RunAsUser uid to docker-registry DeploymentConfig
+- name: Get docker-registry deployment config
+  command: oc get dc docker-registry -n default -o json
+  changed_when: false
+  register: get_registry_dc
+
+- name: Set NFS protocol configuration on registry persistent volume
+  command: oc patch dc docker-registry -n default -p '{"spec":{"template":{"spec":{"securityContext":{"runAsUser":2000000000}}}}}'
+  when: >-
+    get_registry_dc.stdout | from_json | json_query('spec.template.spec.securityContext.runAsUser') != 2000000000

@@ -4,6 +4,7 @@ OpenShift Persistent Storage
 The following are persistent storage examples on OpenShift:
 * Hostpath implementation of infrastructure components (registry, metrics, logging) on a single node using NFS
 * GlusterFS implementation for applications
+* Additional customization of NFS for Docker registry
 
 Disclaimer
 ----------
@@ -82,6 +83,8 @@ oc create -f metrics-volume.pv.yml
 oc create -f logging-volume.pv.yml
 ```
 
+Optionally, to apply NFS customizations on the Docker registry:
+ansible-playbook -i hosts.lab post-config.yml
 
 License
 -------
