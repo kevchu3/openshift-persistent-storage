@@ -84,7 +84,9 @@ oc create -f logging-volume.pv.yml
 ```
 
 Optionally, to apply NFS customizations on the Docker registry:
+```
 ansible-playbook -i hosts.lab post-config.yml
+```
 
 License
 -------
