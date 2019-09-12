@@ -27,7 +27,7 @@ firewall-cmd --add-service=rpc-bind --permanent
 systemctl restart firewalld.service
 semanage fcontext -a -t nfs_t "/exports(/.*)?"
 restorecon -R -v /exports
-exportfs -rv
+exportfs -arv
 
 # Set up mountpoint
 echo '/dev/vdb2  /exports/registry   xfs   defaults  0 0' >> /etc/fstab
