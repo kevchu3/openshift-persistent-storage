@@ -43,10 +43,10 @@ lsblk
 ...
 vdb           252:16   0   50G  0 disk 
 ├─vdb1        252:17   0   30G  0 part /var/lib/docker
-├─vdb2        252:18   0   15G  0 part /exports/registry
-├─vdb3        252:19   0    5G  0 part /exports/metrics
+├─vdb2        252:18   0   15G  0 part
+├─vdb3        252:19   0    5G  0 part
 ├─vdb4        252:20   0    1K  0 part 
-└─vdb5        252:21   0   10G  0 part /exports/logging-es
+└─vdb5        252:21   0   10G  0 part
 ```
 
 Format the new partitions
@@ -64,6 +64,18 @@ Deploy
 Run the hostpath setup from the node that will be used to host the registry, metrics, and logging.
 ```
 ./hostpath-setup.sh
+```
+
+The partitions should now be mounted:
+```
+lsblk
+...
+vdb           252:16   0   50G  0 disk 
+├─vdb1        252:17   0   30G  0 part /var/lib/docker
+├─vdb2        252:18   0   15G  0 part /exports/registry
+├─vdb3        252:19   0    5G  0 part /exports/metrics
+├─vdb4        252:20   0    1K  0 part 
+└─vdb5        252:21   0   10G  0 part /exports/logging-es
 ```
 
 Run the GlusterFS setup from the nodes that will be used to host application persistent storage.
